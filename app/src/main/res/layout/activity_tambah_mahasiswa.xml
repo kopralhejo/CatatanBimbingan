@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView3"
         android:layout_below="@+id/textView3"
-        android:inputType="text"/>
+        android:inputType="number"/>
 
     <TextView
         android:id="@+id/textView4"
