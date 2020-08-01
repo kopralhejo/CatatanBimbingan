@@ -40,8 +40,8 @@ public class LihatBiodataActivity extends AppCompatActivity {
         text4 = (TextView) findViewById(R.id.textView4);
         text5 = (TextView) findViewById(R.id.textView5);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        cursor = db.rawQuery("SELECT * FROM Mahasiswa WHERE nama = '" +
-                getIntent().getStringExtra("nama") + "'",null);
+        cursor = db.rawQuery("SELECT * FROM Mahasiswa WHERE id = '" +
+                getIntent().getStringExtra("id") + "'",null);
         cursor.moveToFirst();
         if (cursor.getCount()>0)
         {

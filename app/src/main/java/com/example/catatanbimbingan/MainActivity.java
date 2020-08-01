@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MahasiswaAdapter mahasiswaAdapter;
     private ArrayList<Mahasiswa> listmahasiswa;
     private Button btntambahmahasiswa;
-    String[] daftar;
+    String[] daftar, daftar2;
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
@@ -74,36 +74,43 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbcenter.getReadableDatabase();
         cursor = db.rawQuery("SELECT * FROM Mahasiswa", null);
         daftar = new String[cursor.getCount()];
+        daftar2 = new String[cursor.getCount()];
         cursor.moveToFirst();
         for (int cc = 0; cc < cursor.getCount(); cc++) {
             cursor.moveToPosition(cc);
-            daftar[cc] = cursor.getString(3).toString();
+            daftar2[cc] = cursor.getString(0).toString();
+            daftar[cc] = cursor.getString(2).toString();
         }
         ListView01 = (ListView) findViewById(R.id.listView1);
         ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftar));
         ListView01.setSelected(true);
         ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-                final String selection = daftar[arg2]; //.getItemAtPosition(arg2).toString();
-                final CharSequence[] dialogitem = {"Lihat Biodata", "Update Biodata", "Hapus Biodata"};
+                final String selection = daftar2[arg2]; //.getItemAtPosition(arg2).toString();
+                final CharSequence[] dialogitem = {"Lihat Bimbingan","Lihat Biodata", "Update Biodata", "Hapus Biodata"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Pilihan");
                 builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
                             case 0:
-                                Intent i = new Intent(getApplicationContext(), LihatBiodataActivity.class);
-                                i.putExtra("nama", selection);
+                                Intent i = new Intent(getApplicationContext(), ListCatatanActivity.class);
+                                i.putExtra("id", selection);
                                 startActivity(i);
                                 break;
                             case 1:
-                                Intent in = new Intent(getApplicationContext(), LihatBiodataActivity.class);
-                                in.putExtra("nama", selection);
-                                startActivity(in);
+                                Intent i = new Intent(getApplicationContext(), LihatBiodataActivity.class);
+                                i.putExtra("id", selection);
+                                startActivity(i);
                                 break;
                             case 2:
+                                Intent in = new Intent(getApplicationContext(), LihatBiodataActivity.class);
+                                in.putExtra("id", selection);
+                                startActivity(in);
+                                break;
+                            case 3:
                                 SQLiteDatabase db = dbcenter.getWritableDatabase();
-                                db.execSQL("delete from Mahasiswa where nama = '" + selection + "'");
+                                db.execSQL("delete from Mahasiswa where id = '" + selection + "'");
                                 RefreshList();
                                 break;
                         }
