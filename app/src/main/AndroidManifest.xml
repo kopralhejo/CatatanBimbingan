@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LihatBiodataActivity"></activity>
-        <activity android:name=".ListCatatanActivity"></activity>
+        <activity android:name=".TambahCatatanActivity"></activity>
+        <activity android:name=".LihatBiodataActivity" />
+        <activity android:name=".ListCatatanActivity" />
         <activity android:name=".TambahMahasiswaActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

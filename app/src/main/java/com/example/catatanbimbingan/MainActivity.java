@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MahasiswaAdapter mahasiswaAdapter;
     private ArrayList<Mahasiswa> listmahasiswa;
     private Button btntambahmahasiswa;
-    String[] daftar, daftar2;
+    String[] daftar, daftar2, daftarnim;
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
@@ -75,18 +75,21 @@ public class MainActivity extends AppCompatActivity {
         cursor = db.rawQuery("SELECT * FROM Mahasiswa", null);
         daftar = new String[cursor.getCount()];
         daftar2 = new String[cursor.getCount()];
+        daftarnim = new String[cursor.getCount()];
         cursor.moveToFirst();
         for (int cc = 0; cc < cursor.getCount(); cc++) {
             cursor.moveToPosition(cc);
             daftar2[cc] = cursor.getString(0).toString();
             daftar[cc] = cursor.getString(2).toString();
+            daftarnim[cc] = cursor.getString(1).toString();
         }
         ListView01 = (ListView) findViewById(R.id.listView1);
-        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftar));
+        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftarnim));
         ListView01.setSelected(true);
         ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
                 final String selection = daftar2[arg2]; //.getItemAtPosition(arg2).toString();
+                final String selectionnim = daftarnim[arg2];
                 final CharSequence[] dialogitem = {"Lihat Bimbingan","Lihat Biodata", "Update Biodata", "Hapus Biodata"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Pilihan");
@@ -94,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
                             case 0:
-                                Intent i = new Intent(getApplicationContext(), ListCatatanActivity.class);
-                                i.putExtra("id", selection);
-                                startActivity(i);
+                                Intent i1 = new Intent(getApplicationContext(), ListCatatanActivity.class);
+                                i1.putExtra("nim", selectionnim);
+                                startActivity(i1);
                                 break;
                             case 1:
                                 Intent i = new Intent(getApplicationContext(), LihatBiodataActivity.class);

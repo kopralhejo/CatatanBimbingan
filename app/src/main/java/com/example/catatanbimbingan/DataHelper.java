@@ -44,17 +44,15 @@ public class DataHelper extends SQLiteOpenHelper {
 //    }
 
     public void onCreate(SQLiteDatabase db){
-        String sql = "create table Mahasiswa(" +
-                "id integer primary key, " +
-                "nim text null, " +
-                "nama text null, " +
-                "hp text null, " +
-                "prodi text null," +
-                "angkatan text null, " +
-                "jumlahbimbingan text null, " +
-                "tanggal text null);";
+        String sql2 = "Create table Catatan(id integer primary key,judul text null,nim text null,bimbingan integer null,catatan text null,tanggal DATETIME DEFAULT CURRENT_TIMESTAMP)";
+        Log.d("Data","onCreate: "+sql2);
+        db.execSQL(sql2);
+
+        String sql = "create table Mahasiswa(id integer primary key, nim text null, nama text null, hp text null,prodi text null,angkatan text null,jumlahbimbingan text null,tanggal text null)";
         Log.d("Data","onCreate: "+sql);
         db.execSQL(sql);
+
+
     }
 
     @Override
