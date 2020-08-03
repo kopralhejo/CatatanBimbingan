@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
     protected Cursor cursor;
     DataHelper dbcenter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getdata();
-
+//        getdata();
 //        //recyclerview
 //        recyclerView = findViewById(R.id.list_mahasiswa);
 //        mahasiswaAdapter = new MahasiswaAdapter(listmahasiswa);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             daftarnim[cc] = cursor.getString(1).toString();
         }
         ListView01 = (ListView) findViewById(R.id.listView1);
-        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftarnim));
+        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftar));
         ListView01.setSelected(true);
         ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class TambahMahasiswaActivity extends AppCompatActivity {
+public class EditCatatanActivity extends AppCompatActivity {
 
     protected Cursor cursor;
     DataHelper dbHelper;
@@ -20,38 +20,30 @@ public class TambahMahasiswaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tambah_mahasiswa);
+        setContentView(R.layout.activity_edit_catatan);
 
         dbHelper = new DataHelper(this);
         text1 = (EditText) findViewById(R.id.editText1);
         text2 = (EditText) findViewById(R.id.editText2);
-        text3 = (EditText) findViewById(R.id.editText3);
-        text4 = (EditText) findViewById(R.id.editText4);
-        text5 = (EditText) findViewById(R.id.editText5);
         ton1 = (Button) findViewById(R.id.button1);
         ton2 = (Button) findViewById(R.id.button2);
-
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        cursor = db.rawQuery("SELECT * FROM Catatan WHERE id = '" + getIntent().getStringExtra("id") + "'",null);
+        cursor.moveToFirst();
+        if (cursor.getCount()>0)
+        {
+            cursor.moveToPosition(0);
+            text1.setText(cursor.getString(1).toString());
+            text2.setText(cursor.getString(4).toString());
+        }
         ton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.execSQL("insert into Mahasiswa(nim,nama,hp,prodi,angkatan) values('" +
-                        text1.getText().toString() + "','" +
-                        text2.getText().toString() + "','" +
-                        text3.getText().toString() + "','" +
-                        text4.getText().toString() + "','" +
-                        text5.getText().toString() + "')");
-                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
-                MainActivity.ma.RefreshList();
-                finish();
-            }
-        });
-        ton2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
+                db.execSQL("update Catatan set judul='"+ text1.getText().toString() +"', catatan='" + text2.getText().toString()+"' where id='" +
+                        getIntent().getStringExtra("id") +"'");
+                ListCatatanActivity.ma.RefreshList();
                 finish();
             }
         });

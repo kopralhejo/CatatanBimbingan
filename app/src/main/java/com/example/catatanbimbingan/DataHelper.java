@@ -7,41 +7,15 @@ import android.util.Log;
 
 public class DataHelper extends SQLiteOpenHelper {
     //DATABASE NAME
-    public static final String DATABASE_NAME = "dosen";
+    public static final String DATABASE_NAME = "dosen4";
     //DATABASE VERSION
     public static final int DATABASE_VERSION = 1;
-    //TABLE NAME
-//    public static final String TABLE_Mahasiswa = "Mahasiswa";
-//    //ID COLUMN @primaryKey
-//    public static final String KEY_ID = "id";
-//    public static final String KEY_NIM = "nim";
-//    public static final String KEY_HP = "hp";
-//    public static final String KEY_NAMA = "nama";
-//    public static final String KEY_JURUSAN = "jurusan";
-//    public static final String KEY_ANGKATAN = "angkatan";
-//    public static final String KEY_JUMLAHBIMBINGAN = "jumlahbimbingan";
-//    public static final String KEY_TANGGAL = "tanggal";
-//    //SQL for creating Mahasiswa table
-//    public static final String SQL_TABLE_Mahasiswa = " CREATE TABLE " + TABLE_Mahasiswa
-//            + " ( "
-//            + KEY_ID + " INTEGER PRIMARY KEY, "
-//            + KEY_NIM + " TEXT, "
-//            + KEY_NAMA + " TEXT, "
-//            + KEY_HP + " TEXT,"
-//            + KEY_JURUSAN + "TEXT,"
-//            + KEY_ANGKATAN + " TEXT,"
-//            + KEY_JUMLAHBIMBINGAN + " INTEGER,"
-//            + KEY_TANGGAL + "DATE"
-//            + " ) ";
 
     public DataHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-//    public void onCreate(SQLiteDatabase db){
-//        db.execSQL(SQL_TABLE_Mahasiswa);
-//    }
 
     public void onCreate(SQLiteDatabase db){
         String sql2 = "Create table Catatan(id integer primary key,judul text null,nim text null,bimbingan integer null,catatan text null,tanggal DATETIME DEFAULT CURRENT_TIMESTAMP)";
