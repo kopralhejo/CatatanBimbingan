@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.MahasiswaViewHolder> {
 
-    private ArrayList<Mahasiswa> listmahasiswa;
+    private List<Mahasiswa> listmahasiswa;
 
-    public MahasiswaAdapter(ArrayList<Mahasiswa> listmahasiswa) {
-        this.listmahasiswa = listmahasiswa;
+    public MahasiswaAdapter(List<Mahasiswa> listmahasiswa1) {
+        this.listmahasiswa = listmahasiswa1;
     }
 
     @NonNull
@@ -28,10 +28,9 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
 
     @Override
     public void onBindViewHolder(@NonNull MahasiswaAdapter.MahasiswaViewHolder holder, int position) {
-    holder.nama.setText(listmahasiswa.get(position).nama);
-    holder.jurusan.setText(listmahasiswa.get(position).jurusan);
-    holder.angkatan.setText(listmahasiswa.get(position).angkatan);
-    holder.tanggal.setText((CharSequence) listmahasiswa.get(position).tanggal);
+    holder.nama.setText(listmahasiswa.get(position).getNama());
+    holder.jurusan.setText(listmahasiswa.get(position).getProdi());
+    holder.angkatan.setText(listmahasiswa.get(position).getAngkatan());
     }
 
     @Override
