@@ -50,15 +50,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = findViewById(R.id.list_mahasiswa);
-        mahasiswaAdapter = new MahasiswaAdapter(listmahasiswa);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mahasiswaAdapter);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+//        mahasiswaAdapter = new MahasiswaAdapter(listmahasiswa);
+//        recyclerView.setAdapter(mahasiswaAdapter);
+
         ma = this;
-//      dbcenter = new DataHelper(this);
+        //dbcenter = new DataHelper(this);
         RefreshList();
+
         //Button Tambah Mahasiswa
         btntambahmahasiswa = findViewById(R.id.btn_tambahmahasiswa);
         btntambahmahasiswa.setOnClickListener(new View.OnClickListener() {
@@ -75,11 +80,12 @@ public class MainActivity extends AppCompatActivity {
         mahasiswaCall.enqueue(new Callback<GetMahasiswa>() {
             @Override
             public void onResponse(Call<GetMahasiswa> call, Response<GetMahasiswa> response) {
-                List<Mahasiswa> listmahasiswa = response.body().getListDataKontak();
+                List<Mahasiswa> listmahasiswa = new ArrayList<>();
+                listmahasiswa = response.body().getListDataKontak();
                 Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
                         String.valueOf(listmahasiswa.size()));
                 mAdapter = new MahasiswaAdapter(listmahasiswa);
-                mRecyclerView.setAdapter(mAdapter);
+                recyclerView.setAdapter(mAdapter);
             }
 
             @Override

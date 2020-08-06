@@ -14,6 +14,7 @@ import retrofit2.http.PUT;
 public interface ApiInterface {
     @GET("mahasiswa_android")
     Call<GetMahasiswa> getMahasiswa();
+
     @FormUrlEncoded
     @POST("mahasiswa")
     Call<PostPutDelMahasiswa> PostMahasiswa(
@@ -24,6 +25,7 @@ public interface ApiInterface {
             @Field("angkatan") String angkatan,
             @Field("jumlahbimbingan") String jumlahbimbingan,
             @Field("tanggal") String tanggal);
+
     @FormUrlEncoded
     @PUT("mahasiswa")
     Call<PostPutDelMahasiswa> PutMahasiswa(
@@ -34,6 +36,7 @@ public interface ApiInterface {
             @Field("angkatan") String angkatan,
             @Field("jumlahbimbingan") String jumlahbimbingan,
             @Field("tanggal") String tanggal);
+
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "mahasiswa", hasBody = true)
     Call<PostPutDelMahasiswa> deleteMahasiswa(

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.MahasiswaViewHolder> {
 
-    private List<Mahasiswa> listmahasiswa;
+    public List<Mahasiswa> listmahasiswa;
 
     public MahasiswaAdapter(List<Mahasiswa> listmahasiswa1) {
         this.listmahasiswa = listmahasiswa1;
@@ -30,7 +30,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
     public void onBindViewHolder(@NonNull MahasiswaAdapter.MahasiswaViewHolder holder, int position) {
     holder.nama.setText(listmahasiswa.get(position).getNama());
     holder.jurusan.setText(listmahasiswa.get(position).getProdi());
-    holder.angkatan.setText(listmahasiswa.get(position).getAngkatan());
+    holder.angkatan.setText(listmahasiswa.get(position).getAngkatan()+"");
     }
 
     @Override
@@ -39,8 +39,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
     }
 
     public class MahasiswaViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView nama,jurusan,angkatan,tanggal,jmlbimbingan;
+        public TextView nama,jurusan,angkatan,tanggal,jmlbimbingan;
 
         public MahasiswaViewHolder(View view){
             super(view);
