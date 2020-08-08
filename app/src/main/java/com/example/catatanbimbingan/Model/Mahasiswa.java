@@ -1,4 +1,4 @@
-package com.example.catatanbimbingan;
+package com.example.catatanbimbingan.Model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,21 +12,21 @@ public class Mahasiswa {
     @SerializedName("nama")
     private String nama;
     @SerializedName("hp")
-    private Integer hp;
+    private String hp;
     @SerializedName("prodi")
     private String prodi;
     @SerializedName("angkatan")
-    private Integer angkatan;
+    private String angkatan;
     @SerializedName("jumlahbimbingan")
-    private Integer jumlahbimbingan;
+    private String jumlahbimbingan;
     @SerializedName("tanggal")
-    private Date tanggal;
+    private String tanggal;
 
-    public Integer getHp() {
+    public String getHp() {
         return hp;
     }
 
-    public void setHp(Integer hp) {
+    public void setHp(String hp) {
         this.hp = hp;
     }
 
@@ -62,27 +62,27 @@ public class Mahasiswa {
         this.prodi = prodi;
     }
 
-    public Integer getAngkatan() {
+    public String getAngkatan() {
         return angkatan;
     }
 
-    public void setAngkatan(Integer angkatan) {
+    public void setAngkatan(String angkatan) {
         this.angkatan = angkatan;
     }
 
-    public Integer getJumlahbimbingan() {
+    public String getJumlahbimbingan() {
         return jumlahbimbingan;
     }
 
-    public void setJumlahbimbingan(Integer jumlahbimbingan) {
+    public void setJumlahbimbingan(String jumlahbimbingan) {
         this.jumlahbimbingan = jumlahbimbingan;
     }
 
-    public Date getTanggal() {
+    public String getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(Date tanggal) {
+    public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
     }
 }

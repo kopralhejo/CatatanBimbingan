@@ -1,14 +1,11 @@
-package com.example.catatanbimbingan;
+package com.example.catatanbimbingan.RestApi;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by root on 2/3/17.
- */
-
 public class ApiClient {
     public static final String BASE_URL = "http://192.168.43.133:8080/ci-restserver/index.php/";
+//    public static final String BASE_URL = "http://127.0.0.1:8080/ci-restserver/index.php/";
     private static Retrofit retrofit = null;
     public static Retrofit getClient() {
         if (retrofit==null) {

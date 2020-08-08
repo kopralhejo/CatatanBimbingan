@@ -1,5 +1,6 @@
-package com.example.catatanbimbingan;
+package com.example.catatanbimbingan.RestApi;
 
+import com.example.catatanbimbingan.Model.Mahasiswa;
 import com.google.gson.annotations.SerializedName;
 
 public class PostPutDelMahasiswa {
