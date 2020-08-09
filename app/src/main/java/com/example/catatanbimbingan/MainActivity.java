@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.example.catatanbimbingan.Adapter.MahasiswaAdapter;
 import com.example.catatanbimbingan.Model.Mahasiswa;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private MahasiswaAdapter mahasiswaAdapter;
     private List<Mahasiswa> listmahasiswa;
     private Button btntambahmahasiswa;
-    String[] daftar, daftar2, daftarnim;
+    String daftar, daftar2, daftarnim;
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
@@ -50,17 +51,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.list_mahasiswa);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
-
-//        mahasiswaAdapter = new MahasiswaAdapter(listmahasiswa);
-//        recyclerView.setAdapter(mahasiswaAdapter);
-
         ma = this;
-        //dbcenter = new DataHelper(this);
+        daftar = String.valueOf(new Date());
         RefreshList();
+        Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
+                String.valueOf(daftar));
 
         //Button Tambah Mahasiswa
         btntambahmahasiswa = findViewById(R.id.btn_tambahmahasiswa);
@@ -80,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<GetMahasiswa> call, Response<GetMahasiswa> response) {
                 List<Mahasiswa> listmahasiswa = new ArrayList<>();
                 listmahasiswa = response.body().getListDataKontak();
-                Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
-                        String.valueOf(listmahasiswa.size()));
                 mAdapter = new MahasiswaAdapter(listmahasiswa);
                 recyclerView.setAdapter(mAdapter);
             }

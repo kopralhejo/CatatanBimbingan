@@ -136,5 +136,15 @@
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/editText5"
             android:layout_alignEnd="@+id/editText5" />
+
+        <Button
+            android:id="@+id/button3"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Hapus"
+            />
     </RelativeLayout>
 </RelativeLayout>

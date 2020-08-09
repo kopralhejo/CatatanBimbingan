@@ -23,32 +23,30 @@
             android:textStyle="bold"/>
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_below="@+id/title_satu"
+        android:id="@+id/ooo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-<!--        <ListView-->
-<!--            android:id="@+id/listView1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:layout_alignParentEnd="true" >-->
-<!--        </ListView>-->
+        android:baselineAligned="false"
+        android:layout_below="@+id/title_satu"
+        android:layout_marginBottom="50dp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_mahasiswa"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/oo"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <Button
             android:id="@+id/btn_tambahmahasiswa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="Tambah Mahasiswa"/>
+            android:text="Tambah Mahasiswa" />
     </LinearLayout>
 </RelativeLayout>

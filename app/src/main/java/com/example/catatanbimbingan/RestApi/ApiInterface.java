@@ -16,10 +16,8 @@ public interface ApiInterface {
     Call<GetMahasiswa> getMahasiswa();
 
 
-    @GET("Catatan")
-    Call<GetCatatan> getCatatan(
-            @Query("nim") String parameter
-    );
+    @GET("catatan_android")
+    Call<GetCatatan> getCatatan();
 
     @FormUrlEncoded
     @GET("mahasiswa")
@@ -39,13 +37,13 @@ public interface ApiInterface {
             @Field("tanggal") String tanggal);
 
     @FormUrlEncoded
-    @POST("Catatan")
+    @POST("catatan")
     Call<PostPutDelCatatan> PostCatatan(
             @Field("judul") String judul,
-            @Field("nim") String nim,
             @Field("bimbingan") Integer bimbingan,
             @Field("catatan") String catatan,
-            @Field("tanggal") Date tanggal);
+            @Field("tanggal") String tanggal,
+            @Field("nim") String nim);
 
     @FormUrlEncoded
     @PUT("Catatan")

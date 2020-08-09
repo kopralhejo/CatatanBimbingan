@@ -25,7 +25,7 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
 
     protected Cursor cursor;
     DataHelper dbHelper;
-    Button ton1, ton2;
+    Button ton1, ton2, ton3;
     EditText text1, text2, text3, text4, text5;
     ApiInterface mApiInterface;
     private RecyclerView recyclerView;
@@ -57,7 +57,7 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
 //            text5.setText(cursor.getString(5).toString());
 //        }
         Log.d("Retrofit Get", "id : " +
-                String.valueOf(mIntent.getStringExtra("Id")));
+                String.valueOf(mIntent.getStringExtra("id")));
         text1.setText(mIntent.getStringExtra("nim"));
         text2.setText(mIntent.getStringExtra("nama"));
         text3.setText(mIntent.getStringExtra("hp"));
@@ -81,19 +81,20 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
 //            }
 //        });
 
+        Log.e("ID ::", "hello"+mIntent.getStringExtra("Id"));
         ton1 = (Button) findViewById(R.id.button1);
         ton2 = (Button) findViewById(R.id.button2);
+        ton3 = (Button) findViewById(R.id.button3);
         ton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 //                SQLiteDatabase db = dbHelper.getWritableDatabase();
 //                db.execSQL("update Mahasiswa set nim='"+ text1.getText().toString() +"', nama='" + text2.getText().toString()+"', hp='" + text3.getText().toString()+"', prodi='" + text4.getText().toString()+"', angkatan='" + text5.getText().toString()+"' where nim='" +
 //                        getIntent().getStringExtra("nim") +"'");
 //
 //                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
                 Call<PostPutDelMahasiswa> updateKontakCall = mApiInterface.PutMahasiswa(
-                        mIntent.getStringExtra("Id"),
+                        mIntent.getStringExtra("id"),
                         text1.getText().toString(),
                         text2.getText().toString(),
                         text3.getText().toString(),
@@ -113,8 +114,6 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                     }
                 });
-                MainActivity.ma.RefreshList();
-                finish();
             }
         });
         ton2.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +122,26 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 finish();
+            }
+        });
+        ton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Call<PostPutDelMahasiswa> delMahasiswaCall = mApiInterface.deleteMahasiswa(mIntent.getStringExtra("id"));
+                delMahasiswaCall.enqueue(new Callback<PostPutDelMahasiswa>() {
+                    @Override
+                    public void onResponse(Call<PostPutDelMahasiswa> call, Response<PostPutDelMahasiswa> response) {
+                        Log.d("Proses Hapus Berhasil", "Caution : " +
+                                String.valueOf(response.body()));
+                        MainActivity.ma.RefreshList();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostPutDelMahasiswa> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

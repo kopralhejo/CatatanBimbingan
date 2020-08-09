@@ -16,7 +16,15 @@ public class Catatan {
     @SerializedName("catatan")
     private String catatan;
     @SerializedName("tanggal")
-    private Date tanggal;
+    private String tanggal;
+
+    public String getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
+    }
 
     public String getId() {
         return id;
@@ -56,14 +64,6 @@ public class Catatan {
 
     public void setCatatan(String catatan) {
         this.catatan = catatan;
-    }
-
-    public Date getTanggal() {
-        return tanggal;
-    }
-
-    public void setTanggal(Date tanggal) {
-        this.tanggal = tanggal;
     }
 }
 
