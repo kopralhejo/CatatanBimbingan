@@ -88,7 +88,7 @@ public class ListCatatanActivity extends AppCompatActivity {
                 List<Catatan> listmahasiswa = new ArrayList<>();
                 listmahasiswa = response.body().getListDataKontak();
                 Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
-                        String.valueOf(listmahasiswa.size()));
+                        String.valueOf(listmahasiswa));
                 mAdapter = new CatatanAdapter(listmahasiswa);
                 recyclerView.setAdapter(mAdapter);
             }
