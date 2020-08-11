@@ -13,15 +13,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.catatanbimbingan.Model.Mahasiswa;
 import com.example.catatanbimbingan.RestApi.ApiClient;
 import com.example.catatanbimbingan.RestApi.ApiInterface;
+import com.example.catatanbimbingan.RestApi.GetMahasiswaId;
 import com.example.catatanbimbingan.RestApi.PostPutDelCatatan;
 import com.example.catatanbimbingan.RestApi.PostPutDelCatatan;
 import com.example.catatanbimbingan.RestApi.PostPutDelMahasiswa;
 import com.example.catatanbimbingan.Sql.DataHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,27 +50,37 @@ public class TambahCatatanActivity extends AppCompatActivity {
         SimpleDateFormat ft =
                 new SimpleDateFormat ("hh:mm dd-MM-yyyy");
         tanggal = ft.format(dNow);
-        dbHelper = new DataHelper(this);
-//        tanggal = String.valueOf(new Date());
+
         text1 = (EditText) findViewById(R.id.editText1);
         text2 = (EditText) findViewById(R.id.editText2);
         text3 = (EditText) findViewById(R.id.editText3);
-//        text4 = (TextView) findViewById(R.id.textView1);
         text5 = (EditText) findViewById(R.id.editText5);
         ton1 = (Button) findViewById(R.id.button1);
         ton2 = (Button) findViewById(R.id.button2);
         textv1 = (TextView) findViewById(R.id.textView1);
         final Intent mIntent = getIntent();
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Log.d("Retrofit Get", "lempar tanggal " +
-                String.valueOf(mIntent.getStringExtra("jml")));
-        if (mIntent.getStringExtra("jml")==null){
-            bimbing = 0;
-        } else {
-            bimbing = mIntent.getIntExtra("jml",0);
-        };
-        Log.d("Jumlah Bimbingan", "lempar tanggal " +
-                String.valueOf(mIntent.getStringExtra("id")));
+
+        Call<GetMahasiswaId> mahasiswaCall = mApiInterface.getMahasiswaId(mIntent.getStringExtra("nim"));
+        mahasiswaCall.enqueue(new Callback<GetMahasiswaId>() {
+            @Override
+            public void onResponse(Call<GetMahasiswaId> call, Response<GetMahasiswaId> response) {
+                List<Mahasiswa> listmahasiswa1 = new ArrayList<>();
+                listmahasiswa1 = response.body().getListDataKontak();
+                for (int i = 0;i<listmahasiswa1.size();i++){
+                    if (listmahasiswa1.get(i).getJumlahbimbingan()==null){
+                        bimbing = 0;
+                    } else {
+                        bimbing = Integer.valueOf(listmahasiswa1.get(i).getJumlahbimbingan());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMahasiswaId> call, Throwable t) {
+                Log.e("Gagal Bos :", t.toString());
+            }
+        });
 
 
         ton1.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +93,7 @@ public class TambahCatatanActivity extends AppCompatActivity {
                         text2.getText().toString(),
                         tanggal,
                         mIntent.getStringExtra("nim"));
+
                 postPutDelCatatanCall.enqueue(new Callback<PostPutDelCatatan>() {
                     @Override
                     public void onResponse(Call<PostPutDelCatatan> call, Response<PostPutDelCatatan> response) {
@@ -115,32 +130,6 @@ public class TambahCatatanActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                     }
                 });
-//                tanggal = getIntent().getStringExtra("tanggal");
-//                SQLiteDatabase db = dbHelper.getReadableDatabase();
-//                cursor = db.rawQuery("SELECT * FROM Catatan WHERE tanggal = '" +
-//                        getIntent().getStringExtra("tanggal") + "'ORDER BY bimbingan DESC LIMIT 1 ",null);
-//                cursor.moveToFirst();
-//                if (cursor.getCount()==0)
-//                {
-//                    cursor.moveToPosition(0);
-//                        SQLiteDatabase db1 = dbHelper.getWritableDatabase();
-//                        db1.execSQL("insert into Catatan(judul,catatan,tanggal,bimbingan) values('" +
-//                                text1.getText().toString() + "','" +
-//                                text2.getText().toString() + "','" +
-//                                tanggal + "'," +
-//                                "1)");
-////                        db.execSQL("update Catatan set bimbingan = '"+ 1 +"' where tanggal = '"+ cursor.getString(2).toString() + "'");
-//                } else {
-//                    Integer jml = cursor.getInt(3) + 1;
-//                    SQLiteDatabase db1 = dbHelper.getWritableDatabase();
-//                    db1.execSQL("insert into Catatan(judul,catatan,tanggal,bimbingan) values('" +
-//                            text1.getText().toString() + "','" +
-//                            text2.getText().toString() + "','" +
-//                            tanggal                        + "','" +
-//                            jml +"')");
-////                        db.execSQL("update Catatan set bimbingan = '"+ jml +"' where tanggal = '"+ cursor.getString(2).toString() + "'");
-//                }
-//                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
                 ListCatatanActivity.ma.RefreshList();
                 finish();
             }

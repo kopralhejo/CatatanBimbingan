@@ -21,6 +21,9 @@ import com.example.catatanbimbingan.Model.Mahasiswa;
 import com.example.catatanbimbingan.RestApi.ApiClient;
 import com.example.catatanbimbingan.RestApi.ApiInterface;
 import com.example.catatanbimbingan.RestApi.GetCatatan;
+import com.example.catatanbimbingan.RestApi.GetMahasiswaId;
+import com.example.catatanbimbingan.RestApi.GetMahasiswaId;
+import com.example.catatanbimbingan.RestApi.GetMahasiswaId;
 import com.example.catatanbimbingan.Sql.DataHelper;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class ListCatatanActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MahasiswaAdapter mahasiswaAdapter;
     private ArrayList<Mahasiswa> listCatatan;
-    String[] daftar, daftar2, daftarnim;
+    String jumlahbimbing,satu,dua;
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
@@ -56,11 +59,11 @@ public class ListCatatanActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListCatatanActivity.this);
         recyclerView.setLayoutManager(layoutManager);
 
-        nim = getIntent().getStringExtra("nim");
         final Intent mIntent = getIntent();
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         ma = this;
         nim = mIntent.getStringExtra("nim");
+
         RefreshList();
 
         btntambahmahasiswa = findViewById(R.id.btn_tambahmahasiswa);
@@ -70,25 +73,42 @@ public class ListCatatanActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ListCatatanActivity.this, TambahCatatanActivity.class);
                 intent.putExtra("nim", nim);
-                intent.putExtra("jml", getIntent().getStringExtra("jml"));
+                intent.putExtra("jml", jumlahbimbing);
                 intent.putExtra("id", getIntent().getStringExtra("id"));
                 intent.putExtra("nama", getIntent().getStringExtra("nama"));
                 intent.putExtra("hp", getIntent().getStringExtra("hp"));
                 intent.putExtra("prodi", getIntent().getStringExtra("prodi"));
+                intent.putExtra("angkatan", getIntent().getStringExtra("angkatan"));
                 startActivity(intent);
             }
         });
     }
 
     public void RefreshList() {
-        Call<GetCatatan> catatanCall = mApiInterface.getCatatan();
+        Call<GetMahasiswaId> mahasiswaCall = mApiInterface.getMahasiswaId(nim);
+        mahasiswaCall.enqueue(new Callback<GetMahasiswaId>() {
+            @Override
+            public void onResponse(Call<GetMahasiswaId> call, Response<GetMahasiswaId> response) {
+                List<Mahasiswa> listmahasiswa1 = new ArrayList<>();
+                listmahasiswa1 = response.body().getListDataKontak();
+                for (int i = 0;i<listmahasiswa1.size();i++){
+                    jumlahbimbing = listmahasiswa1.get(i).getJumlahbimbingan();
+                    Log.d("INI JUMLAH BIMBINGAN", " : " + jumlahbimbing);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMahasiswaId> call, Throwable t) {
+                Log.e("Gagal Bos :", t.toString());
+            }
+        });
+
+        Call<GetCatatan> catatanCall = mApiInterface.getCatatan(nim);
         catatanCall.enqueue(new Callback<GetCatatan>() {
             @Override
             public void onResponse(Call<GetCatatan> call, Response<GetCatatan> response) {
                 List<Catatan> listmahasiswa = new ArrayList<>();
                 listmahasiswa = response.body().getListDataKontak();
-                Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
-                        String.valueOf(listmahasiswa));
                 mAdapter = new CatatanAdapter(listmahasiswa);
                 recyclerView.setAdapter(mAdapter);
             }
@@ -100,43 +120,3 @@ public class ListCatatanActivity extends AppCompatActivity {
         });
     }
 }
-//        ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-//                final String selection = daftar2[arg2]; //.getItemAtPosition(arg2).toString();
-//                final String selectionnim = daftarnim[arg2];
-//                final CharSequence[] dialogitem = {"Lihat Catatan","X Update Biodata", "X Hapus Biodata"};
-//                AlertDialog.Builder builder = new AlertDialog.Builder(ListCatatanActivity.this);
-//                builder.setTitle("Pilihan");
-//                builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int item) {
-//                        switch (item) {
-//                            case 0:
-//                                Intent i1 = new Intent(getApplicationContext(), EditCatatanActivity.class);
-//                                i1.putExtra("id", selection);
-//                                startActivity(i1);
-//                                break;
-//                            case 1:
-//                                Intent i = new Intent(getApplicationContext(), LihatBiodataActivity.class);
-//                                i.putExtra("id", selection);
-//                                startActivity(i);
-//                                break;
-//                            case 2:
-//                                Intent in = new Intent(getApplicationContext(), LihatBiodataActivity.class);
-//                                in.putExtra("id", selection);
-//                                startActivity(in);
-//                                break;
-//                            case 3:
-//                                SQLiteDatabase db = dbcenter.getWritableDatabase();
-//                                db.execSQL("delete from Mahasiswa where id = '" + selection + "'");
-//                                RefreshList();
-//                                break;
-//                        }
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        });
-//        ListView01 = (ListView) findViewById(R.id.listView1);
-//        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftar));
-//        ListView01.setSelected(true);
-//        ((ArrayAdapter) ListView01.getAdapter()).notifyDataSetInvalidated();

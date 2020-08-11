@@ -12,17 +12,18 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
-    @GET("mahasiswa_android")
+    @GET("mahasiswa")
     Call<GetMahasiswa> getMahasiswa();
 
 
-    @GET("catatan_android")
-    Call<GetCatatan> getCatatan();
+    @GET("catatan")
+    Call<GetCatatan> getCatatan(
+            @Query("nim") String nim
+    );
 
-    @FormUrlEncoded
     @GET("mahasiswa")
     Call<GetMahasiswaId> getMahasiswaId(
-            @Field("id") String id
+           @Query("nim") String nim
     );
 
     @FormUrlEncoded
@@ -46,13 +47,14 @@ public interface ApiInterface {
             @Field("nim") String nim);
 
     @FormUrlEncoded
-    @PUT("Catatan")
+    @PUT("catatan")
     Call<PostPutDelCatatan> PutCatatan(
+            @Field("id") String id,
             @Field("judul") String judul,
             @Field("nim") String nim,
-            @Field("bimbingan") Integer bimbingan,
+            @Field("bimbingan") String bimbingan,
             @Field("catatan") String catatan,
-            @Field("tanggal") Date tanggal);
+            @Field("tanggal") String tanggal);
 
     @FormUrlEncoded
     @PUT("mahasiswa")

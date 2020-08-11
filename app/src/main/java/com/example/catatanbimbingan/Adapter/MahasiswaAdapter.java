@@ -43,14 +43,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
     } else {
         holder.jmlbimbingan.setText(listmahasiswa.get(position).getJumlahbimbingan()+"");
     }
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent mIntent = new Intent(view.getContext(), UpdateMahasiswaActivity.class);
-//                mIntent.putExtra("Id", listmahasiswa.get(position).getId());
-//                view.getContext().startActivity(mIntent);
-//            }
-//        });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +54,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
                 mIntent.putExtra("nama", listmahasiswa.get(position).getNama());
                 mIntent.putExtra("hp", listmahasiswa.get(position).getHp());
                 mIntent.putExtra("prodi", listmahasiswa.get(position).getProdi());
+                mIntent.putExtra("angkatan", listmahasiswa.get(position).getAngkatan());
                 view.getContext().startActivity(mIntent);
             }
         });
@@ -74,6 +68,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
                 mIntent.putExtra("hp", listmahasiswa.get(position).getHp());
                 mIntent.putExtra("prodi", listmahasiswa.get(position).getProdi());
                 mIntent.putExtra("angkatan", listmahasiswa.get(position).getAngkatan());
+                mIntent.putExtra("jml", listmahasiswa.get(position).getJumlahbimbingan());
                 view.getContext().startActivity(mIntent);
                 return false;
             }

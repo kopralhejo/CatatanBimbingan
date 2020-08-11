@@ -5,11 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.catatanbimbingan.RestApi.ApiClient;
+import com.example.catatanbimbingan.RestApi.ApiInterface;
+import com.example.catatanbimbingan.RestApi.GetCatatan;
+import com.example.catatanbimbingan.RestApi.PostPutDelCatatan;
 import com.example.catatanbimbingan.Sql.DataHelper;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditCatatanActivity extends AppCompatActivity {
 
@@ -17,6 +26,8 @@ public class EditCatatanActivity extends AppCompatActivity {
     DataHelper dbHelper;
     Button ton1, ton2;
     EditText text1, text2, text3, text4, text5;
+    ApiInterface mApiInterface;
+    String bim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +39,37 @@ public class EditCatatanActivity extends AppCompatActivity {
         text2 = (EditText) findViewById(R.id.editText2);
         ton1 = (Button) findViewById(R.id.button1);
         ton2 = (Button) findViewById(R.id.button2);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        cursor = db.rawQuery("SELECT * FROM Catatan WHERE id = '" + getIntent().getStringExtra("id") + "'",null);
-        cursor.moveToFirst();
-        if (cursor.getCount()>0)
-        {
-            cursor.moveToPosition(0);
-            text1.setText(cursor.getString(1).toString());
-            text2.setText(cursor.getString(4).toString());
-        }
+        mApiInterface = ApiClient.getClient().create(ApiInterface.class);
+
+            text1.setText(getIntent().getStringExtra("dul"));
+            text2.setText(getIntent().getStringExtra("cat"));
+        bim = String.valueOf(getIntent().getIntExtra("bim",0));
+        Log.d("D1 BERHASIL", "ISI BIM "+bim);
+
+
         ton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.execSQL("update Catatan set judul='"+ text1.getText().toString() +"', catatan='" + text2.getText().toString()+"' where id='" +
-                        getIntent().getStringExtra("id") +"'");
+                Call<PostPutDelCatatan> postPutDelCatatanCall = mApiInterface.PutCatatan(
+                        getIntent().getStringExtra("id"),
+                        text1.getText().toString(),
+                        getIntent().getStringExtra("nim"),
+                        bim,
+                        text2.getText().toString(),
+                        getIntent().getStringExtra("tgl")
+                        );
+
+                postPutDelCatatanCall.enqueue(new Callback<PostPutDelCatatan>() {
+                                                  @Override
+                                                  public void onResponse(Call<PostPutDelCatatan> call, Response<PostPutDelCatatan> response) {
+                                                      Log.d("D1 BERHASIL", "MANTAB" );
+                                                  }
+
+                                                  @Override
+                                                  public void onFailure(Call<PostPutDelCatatan> call, Throwable t) {
+                                                      Log.d("D1 GAGAL", "MANTAB" + t.toString());
+                                                  }
+                                              });
                 ListCatatanActivity.ma.RefreshList();
                 finish();
             }

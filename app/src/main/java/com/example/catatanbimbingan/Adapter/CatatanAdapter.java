@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.catatanbimbingan.EditCatatanActivity;
 import com.example.catatanbimbingan.ListCatatanActivity;
 import com.example.catatanbimbingan.Model.Catatan;
 import com.example.catatanbimbingan.Model.Catatan;
@@ -37,23 +38,18 @@ public class CatatanAdapter extends RecyclerView.Adapter<CatatanAdapter.CatatanV
         holder.nama.setText(listcatatan.get(position).getJudul());
         holder.jurusan.setText(listcatatan.get(position).getCatatan());
         holder.angkatan.setText(listcatatan.get(position).getTanggal()+"");
-        holder.jmlbimbingan.setText(listcatatan.get(position).getBimbingan()+"");
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent mIntent = new Intent(view.getContext(), UpdateCatatanActivity.class);
-//                mIntent.putExtra("Id", listcatatan.get(position).getId());
-//                view.getContext().startActivity(mIntent);
-//            }
-//        });
+        holder.tanggal.setText("Bimbingan ke - " + listcatatan.get(position).getBimbingan()+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent mIntent = new Intent(view.getContext(), ListCatatanActivity.class);
-//                mIntent.putExtra("id", listcatatan.get(position).getId());
-//                mIntent.putExtra("nim", listcatatan.get(position).getNim());
-//                mIntent.putExtra("jml", listcatatan.get(position).getJumlahbimbingan());
-//                view.getContext().startActivity(mIntent);
+                Intent mIntent = new Intent(view.getContext(), EditCatatanActivity.class);
+                mIntent.putExtra("bim", listcatatan.get(position).getBimbingan());
+                mIntent.putExtra("cat", listcatatan.get(position).getCatatan());
+                mIntent.putExtra("dul", listcatatan.get(position).getJudul());
+                mIntent.putExtra("id", listcatatan.get(position).getId());
+                mIntent.putExtra("nim", listcatatan.get(position).getNim());
+                mIntent.putExtra("tgl", listcatatan.get(position).getTanggal());
+                view.getContext().startActivity(mIntent);
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){

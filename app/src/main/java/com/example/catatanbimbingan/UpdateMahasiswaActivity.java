@@ -42,20 +42,9 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
         text3 = (EditText) findViewById(R.id.editText3);
         text4 = (EditText) findViewById(R.id.editText4);
         text5 = (EditText) findViewById(R.id.editText5);
+
         final Intent mIntent = getIntent();
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
-//        SQLiteDatabase db = dbHelper.getReadableDatabase();
-//        cursor = db.rawQuery("SELECT * FROM Mahasiswa WHERE nim = '" + getIntent().getStringExtra("nim") + "'",null);
-//        cursor.moveToFirst();
-//        if (cursor.getCount()>0)
-//        {
-//            cursor.moveToPosition(0);
-//            text1.setText(cursor.getString(1).toString());
-//            text2.setText(cursor.getString(2).toString());
-//            text3.setText(cursor.getString(3).toString());
-//            text4.setText(cursor.getString(4).toString());
-//            text5.setText(cursor.getString(5).toString());
-//        }
         Log.d("Retrofit Get", "id : " +
                 String.valueOf(mIntent.getStringExtra("id")));
         text1.setText(mIntent.getStringExtra("nim"));
@@ -63,23 +52,6 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
         text3.setText(mIntent.getStringExtra("hp"));
         text4.setText(mIntent.getStringExtra("prodi"));
         text5.setText(mIntent.getStringExtra("angkatan"));
-//        Call<GetMahasiswaId> mahasiswaCall = mApiInterface.getMahasiswaId("1");
-//        mahasiswaCall.enqueue(new Callback<GetMahasiswaId>() {
-//            @Override
-//            public void onResponse(Call<GetMahasiswaId> call, Response<GetMahasiswaId> response) {
-//                List<Mahasiswa> listmahasiswa = new ArrayList<>();
-//                listmahasiswa = response.body().getListDataKontak();
-//                Log.d("Retrofit Get", "Jumlah data mahasiswa: " +
-//                        String.valueOf(listmahasiswa.size()));
-//                mAdapter = new MahasiswaAdapter(listmahasiswa);
-//                recyclerView.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GetMahasiswaId> call, Throwable t) {
-//                Log.e("Retrofit Get", t.toString());
-//            }
-//        });
 
         Log.e("ID ::", "hello"+mIntent.getStringExtra("Id"));
         ton1 = (Button) findViewById(R.id.button1);
@@ -88,11 +60,6 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
         ton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SQLiteDatabase db = dbHelper.getWritableDatabase();
-//                db.execSQL("update Mahasiswa set nim='"+ text1.getText().toString() +"', nama='" + text2.getText().toString()+"', hp='" + text3.getText().toString()+"', prodi='" + text4.getText().toString()+"', angkatan='" + text5.getText().toString()+"' where nim='" +
-//                        getIntent().getStringExtra("nim") +"'");
-//
-//                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
                 Call<PostPutDelMahasiswa> updateKontakCall = mApiInterface.PutMahasiswa(
                         mIntent.getStringExtra("id"),
                         text1.getText().toString(),
@@ -100,7 +67,7 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
                         text3.getText().toString(),
                         text4.getText().toString(),
                         text5.getText().toString(),
-                        null,
+                        mIntent.getStringExtra("jml"),
                         null);
                 updateKontakCall.enqueue(new Callback<PostPutDelMahasiswa>() {
                     @Override
@@ -139,7 +106,7 @@ public class UpdateMahasiswaActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<PostPutDelMahasiswa> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Log.d("Proses Hapus Berhasil", "Caution : "+t.toString());
                     }
                 });
             }
